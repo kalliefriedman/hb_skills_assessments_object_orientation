@@ -29,10 +29,6 @@ Part 1: Discussion
 """
 
 
-# Parts 2 through 5:
-# Create your classes and class methods
-
-
 class Student(object):
     """Class with first names, last names and addresses"""
 
@@ -58,7 +54,7 @@ class Exam(object):
         for question in self.questions:
             if Question.ask_and_evaluate(question) is True:
                 score += 1
-        return float(score/(len(self.questions)))
+        return float(score)/float(len(self.questions))
 
 
 class Question(object):
@@ -74,3 +70,20 @@ class Question(object):
             return True
         else:
             return False
+
+
+def take_test(exam_instance, student_instance):
+    student_score = Exam.administer(exam_instance)
+    print "You scored %s" % student_score
+    student_instance.score = student_score
+
+
+def example():
+    sample_exam = Exam('sample exam')
+    sample_exam.add_question('What is the method for adding an element to a set?', 'add()')
+    sample_exam.add_question('What is the method for adding an element to a list?', 'append()')
+    sample_exam.add_question('What is the method for adding an element to a touple?', 'not possible')
+    sample_student = Student('Sue', 'Johnson', '601 Bay Street')
+    take_test(sample_exam, sample_student)
+
+example()
