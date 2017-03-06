@@ -57,6 +57,21 @@ class Exam(object):
         return float(score)/float(len(self.questions))
 
 
+class Quiz(Exam):
+    """Class inheriting from exam, which modifies one method to return a boolean value instead of a float"""
+
+    def administer(self):
+        passing_score = len(self.questions)/2
+        current_score = 0
+        for question in self.questions:
+            if Question.ask_and_evaluate(question) is True:
+                current_score += 1
+        if current_score >= passing_score:
+            return True
+        else:
+            return False
+
+
 class Question(object):
     """Class with questions and correct answers"""
 
