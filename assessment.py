@@ -42,21 +42,6 @@ class Student(object):
         self.address = address
 
 
-class Question(Exam):
-    """Class with questions and correct answers"""
-
-    def __init__(self, question, correct_answer):
-        self.question = question
-        self.correct_answer = correct_answer
-
-    def ask_and_evaluate(self, question):
-        self.user_guess = raw_input(self.question)
-        if self.user_guess == self.correct_answer:
-            return True
-        else:
-            return False
-
-
 class Exam(object):
     """Class with names and lists of questions"""
 
@@ -65,13 +50,27 @@ class Exam(object):
         self.questions = []
 
     def add_question(self, question, correct_answer):
-        self.questions.append((question, correct_answer))
+        single_question = Question(question, correct_answer)
+        self.questions.append(single_question)
 
     def administer(self):
-        self.score = 0
+        score = 0
         for question in self.questions:
-            question = question[0]
-            correct_answer = question[1]
-            if Question.ask_and_evaluate(self, question, correct_answer) is True:
-                self.score += 1
-        return self.score/(len(self.questions))
+            if Question.ask_and_evaluate(question) is True:
+                score += 1
+        return float(score/(len(self.questions)))
+
+
+class Question(object):
+    """Class with questions and correct answers"""
+
+    def __init__(self, question, correct_answer):
+        self.question = question
+        self.correct_answer = correct_answer
+
+    def ask_and_evaluate(self):
+        self.user_guess = raw_input(self.question + "  ")
+        if self.user_guess == self.correct_answer:
+            return True
+        else:
+            return False
